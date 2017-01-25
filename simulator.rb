@@ -4,7 +4,7 @@ require 'sinatra-websocket'
 require './helpers/json'
 
 class SocketSimulator < Sinatra::Base
-    set :messages, []
+    set :socket_messages, []
     set :sockets, []
 
     get '/health' do
@@ -12,7 +12,7 @@ class SocketSimulator < Sinatra::Base
     end
 
     get '/messages' do
-        json_response :messages => settings.messages
+        json_response :messages => settings.socket_messages
     end
 
     post '/messages' do
@@ -24,7 +24,7 @@ class SocketSimulator < Sinatra::Base
     end
 
     delete '/messages' do
-        settings.messages.clear
+        settings.socket_messages.clear
         aok
     end
 
@@ -36,7 +36,7 @@ class SocketSimulator < Sinatra::Base
             end
 
             ws.onmessage do |msg|
-                settings.messages << JSON.parse(msg)
+                settings.socket_messages << JSON.parse(msg)
             end
 
             ws.onclose do

@@ -1,20 +1,41 @@
 # Sinatra Socket Simulator
 
 A simple Sinatra app that lets you connect with sockets and simulate actions from a client. I built this for
-automated testing of a client socket app.
+automated testing of a client socket app. On first iteration, it only accepts and serves up JSON data via
+http calls and websocket messages.
 
-## Using It
+## API
 
-Get started with.
+### GET `/health`
+
+Produces a 200 JSON response if the simulator is up and running.
+
+### GET `/messages`
+
+Produces a list of websocket messages received by the simulator. Websocket messages need to be valid JSON.
+
+### POST `/message`
+
+Takes a valid JSON body and sends it to all open websocket connections.
+
+### DELETE `/messages`
+
+Clears/resets the websocket messages.
+
+## Getting Started
+
+Run the simulator.
 
 ```bash
+$ git clone https://github.com/skuttleman/sinatra-socket-simulator.git
+$ cd sinatra-socket-simulator
 $ bundle install
 $ rackup -p 4444 socket.ru
 ```
 
 Connect with a websocket client and send json messages.
 
-In your Chrome Console:
+For example, from Chrome's Console:
 
 ```js
 var socket = new WebSocket('ws://localhost:4444')
@@ -34,11 +55,11 @@ $ curl http://localhost:4444/messages
 {"messages":[]}
 ```
 
-Send a post request to broadcast a socket to all clients
+Send a post request to broadcast a message to all websocket connections.
 
 ```bash
 $ curl -X 'POST' http://localhost:4444/messages --data-raw '{"broadcast":"message"}'
 {"a":"ok"}
 ```
 
-You should see the MessageEvent logged in Chrome's console (for every tab you have connected via socket).
+You should see the MessageEvent logged in Chrome's console (for every tab you have connected via websocket).
