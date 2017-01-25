@@ -1,0 +1,3 @@
+require './simulator'
+
+run SocketSimulator
