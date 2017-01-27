@@ -1,51 +1,22 @@
 require 'sinatra'
 require 'sinatra-websocket'
 
+require './app/state'
+require './app/api'
+require './app/ws'
 require './helpers/json'
 
 class SocketSimulator < Sinatra::Base
-    set :socket_messages, []
-    set :sockets, []
+    set :public_folder, 'public'
 
-    get '/health' do
-        aok
-    end
+    use APIHandler
+    use WSHandler
 
-    get '/messages' do
-        json_response :messages => settings.socket_messages
-    end
-
-    post '/messages' do
-        msg = request.body.read
-        settings.sockets.each do |socket|
-            socket.send msg
-        end
-        aok
-    end
-
-    delete '/messages' do
-        settings.socket_messages.clear
-        aok
+    get '/' do
+        send_file File.join(settings.public_folder, 'index.html')
     end
 
     get '*' do
-        pass unless request.websocket?
-        request.websocket do |ws|
-            ws.onopen do
-                settings.sockets << ws
-            end
-
-            ws.onmessage do |msg|
-                settings.socket_messages << JSON.parse(msg)
-            end
-
-            ws.onclose do
-                settings.sockets.delete ws
-            end
-        end
-    end
-
-    get '*' do
-        json_response({ :unknown => 'resource' }, 404)
+        json_response({ unknown: 'resource' }, 404)
     end
 end
