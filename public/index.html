@@ -1,30 +1,36 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Socket Simulator</title>
-    <script type="text/javascript" src="/app.js"></script>
-    <link rel="stylesheet" href="/main.css"/>
-</head>
-<body>
-    <h1>Socket Simulator</h1>
-    <div>
-        <h2>Received Messages</h2>
-        <ul id="receivedMessages"></ul>
-    </div>
-    <div>
-        <h2>WebSocket Connections</h2>
-        <span id="clientCount">0</span>
-    </div>
-    <div>
-        <form onsubmit="broadcastMessage(event)">
-            <textarea id="message"></textarea>
-            <button id="sendMessage" type="submit">Broadcast Message</button>
-            <button id="clearMessages" onclick="clearMessageList(event)">Clear Messages</button>
-        </form>
-    </div>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Socket Simulator</title>
+        <script type="text/javascript" src="/app.js"></script>
+        <link rel="stylesheet" href="/main.css" />
+    </head>
+    <body>
+        <h1 class="pageTitle">Socket Simulator</h1>
+        <div class="info">
+            <div class="messages">
+                <p class="sectionTitle">Received Messages:</p>
+                <ul id="receivedMessages"></ul>
+                <div class="emptyMessage"></div>
+            </div>
+            <div>
+                <div class="connections">
+                    <p class="sectionTitle">Current Connections:</p>
+                    <span id="clientCount">0</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <form class="form" onsubmit="broadcastMessage(event)">
+                <input type="text" class="input" id="message" required="required" onkeydown="changeText()"/>
+                <div class="errorMessage"></div>
+                <input id="formInvalidator" type="text" pattern="empty" style="display:none"/>
+                <button class="action--do" id="sendMessage" type="submit">Broadcast Message</button>
+                <button class="action--undo" id="clearMessages" onclick="clearMessageList(event)">Clear Messages</button>
+            </form>
+        </div>
+    </body>
 </html>

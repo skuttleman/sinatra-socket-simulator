@@ -33,33 +33,23 @@ $ bundle install
 $ rackup -p 4444 socket.ru
 ```
 
-Connect with a websocket client and send json messages.
+## User Interface
 
-For example, from Chrome's Console:
+Visit `http://localhost:4444` in a browser that supports websockets to monitor websocket messages received and
+to broadcast JSON data to all active websocket clients.
+
+## Connect an app to the simulator
+
+In your app's javascript, the following will connect to the simulator:
 
 ```js
-var socket = new WebSocket('ws://localhost:4444')
-socket.onmessage = console.log
-socket.send('{"some":"message"}')
-socket.send('{"some":"other message"}')
+var socket = new WebSocket('ws://localhost:4444/almost/any/path');
+
+socket.onmessage = function(message) {
+    console.log('received websocket message', JSON.parse(message.data));
+};
+
+socket.onopen = function() {
+    socket.send('{"some":"json","message":["goes","here"]}');
+};
 ```
-
-Now hit the api with an http client of your choosing:
-
-```bash
-$ curl http://localhost:4444/messages
-{"messages":[{"some":"message"},{"some":"other message"}]}
-$ curl -X 'DELETE' http://localhost:4444/messages
-{"a":"ok"}
-$ curl http://localhost:4444/messages
-{"messages":[]}
-```
-
-Send a post request to broadcast a message to all websocket connections.
-
-```bash
-$ curl -X 'POST' http://localhost:4444/messages --data-raw '{"broadcast":"message"}'
-{"a":"ok"}
-```
-
-You should see the MessageEvent logged in Chrome's console (for every tab you have connected via websocket).

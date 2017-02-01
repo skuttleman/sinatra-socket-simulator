@@ -1,3 +1,126 @@
 * {
     font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 32px);
+}
+
+.pageTitle {
+    margin: 16px 0;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-grow: 1;
+    overflow: scroll;
+}
+
+ul {
+    border: 1px solid lightgreen;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+ul:empty {
+    border: none;
+}
+
+ul:empty + .emptyMessage::after {
+    content: 'No Messages';
+}
+
+.emptyMessage {
+    font-style: italic;
+}
+
+li {
+    list-style: none;
+    padding: 4px 0;
+}
+
+.sectionTitle {
+    color: blue;
+    font-weight: bold;
+}
+
+.connections {
+    padding: 16px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+.form:invalid .input:valid {
+    border: 2px solid red;
+}
+
+.form:invalid .input:valid + .errorMessage::after {
+    content: 'Field must contain valid JSON';
+}
+
+.errorMessage {
+    display: block;
+    color: red;
+    font-style: italic;
+    height: 1rem;
+}
+
+.input {
+    width: calc(100% - 16px);
+    resize: none;
+    border: 2px solid #bbb;
+    outline: none;
+    border-radius: 4px;
+    padding: 4px;
+    font-size: 1.25rem;
+    margin: 8px 0;
+}
+
+.input:focus {
+    border: 2px solid #aaf;
+}
+
+.action--do, .action--undo {
+    padding: 4px 16px;
+    outline: none;
+    border: 1px solid grey;
+    border-radius: 4px;
+    color: #ddd;
+    cursor: pointer;
+    width: 200px;
+    height: 32px;
+    font-size: 1rem;
+    transition: box-shadow 0.1s linear;
+}
+
+.action--do:hover, .action--undo:hover {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.action--do:active, .action--undo:active {
+    border: 1px solid lightgray;
+    color: white;
+}
+
+.action--do {
+    background-color: #00f;
+}
+
+.action--do:active {
+    background-color: #2222ff;
+}
+
+.action--undo {
+    background: #ff8c00;
+}
+
+.action--undo:active {
+    background: #ff9922;
 }
